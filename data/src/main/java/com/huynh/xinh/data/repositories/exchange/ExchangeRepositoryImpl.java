@@ -4,10 +4,10 @@ import com.annimon.stream.Stream;
 import com.huynh.xinh.data.repositories.exchange.cloud.ExchangeApi;
 import com.huynh.xinh.data.repositories.exchange.cloud.ExchangeDto;
 import com.huynh.xinh.data.repositories.exchange.disk.ExchangeDao;
-import com.huynh.xinh.data.repositories.exchange.disk.ExchangeEntity;
 import com.huynh.xinh.domain.models.Exchange;
 import com.huynh.xinh.domain.repositories.ExchangeRepository;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -35,10 +35,11 @@ public class ExchangeRepositoryImpl implements ExchangeRepository {
                     throw new SyncExChangeException();
                 })
                 .doOnNext(exchangeDtos -> {
-                    List<ExchangeEntity> exchangeEntities = Stream.of(ExchangeMapper.INSTANCE.toExchangeEntities(exchangeDtos))
-                            .filter(ExchangeEntity::isActive)
+                    List<ExchangeDto> exchangeSupports = Stream.of(exchangeDtos)
+                            .filter(value -> value.isActive() && isExchangeSupported(value.getSymbol()))
                             .toList();
-                    exchangeDao.save(exchangeEntities);
+
+                    exchangeDao.save(ExchangeMapper.INSTANCE.toExchangeEntities(exchangeSupports));
                 })
                 .map(exchangeDtos -> exchangeDtos != null && !exchangeDtos.isEmpty());
     }
@@ -46,5 +47,18 @@ public class ExchangeRepositoryImpl implements ExchangeRepository {
     @Override
     public Observable<List<Exchange>> getExchanges() {
         return exchangeDao.getAllExchanges().toObservable().map(ExchangeMapper.INSTANCE::toExchanges);
+    }
+
+    private boolean isExchangeSupported(String exchange) {
+        return Stream.of(exchangeSupports()).anyMatch(exchange::equalsIgnoreCase);
+    }
+
+    private List<String> exchangeSupports() {
+        return Arrays.asList(
+                "Bittrex",
+                "Binance",
+                "Bitfinex",
+                "Kraken"
+        );
     }
 }

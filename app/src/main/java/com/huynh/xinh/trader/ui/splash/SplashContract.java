@@ -9,6 +9,8 @@ public class SplashContract {
 
         void showLoading();
 
+        void hideLoading();
+
         void showError();
 
         void gotoMainActivity();

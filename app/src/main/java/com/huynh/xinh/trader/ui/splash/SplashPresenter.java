@@ -64,6 +64,7 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
                 getView().onSyncExchangeCoinSuccess();
                 splashPreference.setExchangeCoinSynced(Boolean.TRUE);
             } else {
+                getView().hideLoading();
                 getView().showError();
             }
         }
@@ -71,6 +72,7 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
         @Override
         public void onError(Throwable exception) {
             super.onError(exception);
+            getView().hideLoading();
             getView().showError();
         }
     }
@@ -86,8 +88,8 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
 
     private class SyncMarketResult extends OutputObserver<Boolean> {
         @Override
-        public void onNext(Boolean success) {
-            super.onNext(success);
+        public void onComplete() {
+            super.onComplete();
             splashPreference.setMarketSynced(Boolean.TRUE);
             getView().onSyncMarketSuccess();
         }
@@ -95,6 +97,7 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
         @Override
         public void onError(Throwable exception) {
             super.onError(exception);
+            getView().hideLoading();
             getView().showError();
         }
     }
@@ -112,6 +115,7 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
                 ExchangeManager.getInstance().set(exchanges);
                 getView().onLoadExchangeSuccess();
             } else {
+                getView().hideLoading();
                 getView().showError();
             }
         }
@@ -119,6 +123,7 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
         @Override
         public void onError(Throwable exception) {
             super.onError(exception);
+            getView().hideLoading();
             getView().showError();
         }
     }
@@ -136,6 +141,7 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
                 CoinManager.getInstance().set(coins);
                 navigateToMain();
             } else {
+                getView().hideLoading();
                 getView().showError();
             }
         }
@@ -143,11 +149,12 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
         @Override
         public void onError(Throwable exception) {
             super.onError(exception);
+            getView().hideLoading();
             getView().showError();
         }
     }
 
-    synchronized public void navigateToMain() {
+    synchronized private void navigateToMain() {
         if (!CommonUtils.isListEmpty(ExchangeManager.getInstance().getExchanges()) &&
                 !CommonUtils.isListEmpty(CoinManager.getInstance().getCoins())) {
             getView().gotoMainActivity();

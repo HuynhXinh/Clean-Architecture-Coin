@@ -20,6 +20,6 @@ public interface MarketDao {
     @Query("SELECT * FROM MARKET WHERE exchange = :exchangeName")
     Maybe<List<MarketEntity>> getAllMarketByExchangeName(String exchangeName);
 
-    @Query("SELECT * FROM MARKET WHERE exchange = :exchangeName AND active = 1 LIMIT :page, :maxSize")
-    Maybe<List<MarketEntity>> getMarkets(String exchangeName, int page, int maxSize);
+    @Query("SELECT * FROM MARKET WHERE exchange = :exchangeName AND active = 1 LIMIT :offset, :maxSize")
+    Maybe<List<MarketEntity>> getMarkets(String exchangeName, int offset, int maxSize);
 }

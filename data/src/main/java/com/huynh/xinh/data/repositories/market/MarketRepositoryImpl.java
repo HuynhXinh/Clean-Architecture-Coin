@@ -65,7 +65,8 @@ public class MarketRepositoryImpl implements MarketRepository {
 
     @Override
     public Observable<List<Market>> getMarkets(String exchangeName, int page, int maxResult) {
-        return marketDao.getMarkets(exchangeName, page, maxResult).toObservable().map(MarketMapper.INSTANCE::toMarkets);
+        int offset = page * maxResult;
+        return marketDao.getMarkets(exchangeName, offset, maxResult).toObservable().map(MarketMapper.INSTANCE::toMarkets);
     }
 
     @Override

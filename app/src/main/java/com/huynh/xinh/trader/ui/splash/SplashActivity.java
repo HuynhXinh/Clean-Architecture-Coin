@@ -77,14 +77,18 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     }
 
     @Override
+    public void hideLoading() {
+        pbLoading.setVisibility(View.GONE);
+    }
+
+    @Override
     public void showError() {
 
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
-
         presenter.onDestroy();
+        super.onDestroy();
     }
 }
