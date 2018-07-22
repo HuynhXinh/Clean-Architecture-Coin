@@ -36,8 +36,6 @@ public interface MarketViewModelMapper {
                 .round2DecimalHalfUp()
                 .format2DecimalHalfUpSign() + "%";
         marketViewModel.setPercentFormat(percentFormat);
-        marketViewModel.setColorPercent(getColorPercent(marketViewModel.getPercent()));
-        marketViewModel.setIcon(getIcon(marketViewModel.getAsset()));
     }
 
     default String getAsset(MarketSummary marketSummary) {
@@ -46,14 +44,5 @@ public interface MarketViewModelMapper {
 
     default String getQuote(MarketSummary marketSummary) {
         return AssetAndQuoteUtils.getQuote(marketSummary.getPair()).toUpperCase();
-    }
-
-    default int getColorPercent(BigDecimalWrapper percent) {
-        return percent.gt(BigDecimalWrapper.ZERO) ? Color.parseColor("#00bfbf") : Color.RED;
-    }
-
-    default int getIcon(String asset) {
-        Context context = TraderApplication.getInstance();
-        return context.getResources().getIdentifier(asset.toLowerCase(), "drawable", context.getPackageName());
     }
 }

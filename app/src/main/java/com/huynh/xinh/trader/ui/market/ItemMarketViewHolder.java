@@ -1,5 +1,6 @@
 package com.huynh.xinh.trader.ui.market;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -15,8 +16,10 @@ import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
+import com.huynh.xinh.domain.common.BigDecimalWrapper;
 import com.huynh.xinh.domain.models.Period;
 import com.huynh.xinh.trader.R;
+import com.huynh.xinh.trader.TraderApplication;
 import com.huynh.xinh.trader.utils.CommonUtils;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 
@@ -56,12 +59,21 @@ public class ItemMarketViewHolder extends BaseViewHolder<MarketViewModel> {
 
         setDataChart(viewModel.getPeriods());
 
-        icon.setImageResource(viewModel.getIcon());
+        icon.setImageResource(getIcon(viewModel.getAsset()));
         tvAsset.setText(viewModel.getAsset());
         tvQuote.setText(viewModel.getQuote());
         tvPrice.setText(viewModel.getPrice().format2DecimalHalfUp());
         tvPercent.setText(viewModel.getPercentFormat());
-        tvPercent.setTextColor(viewModel.getColorPercent());
+        tvPercent.setTextColor(getColorPercent(viewModel.getPercent()));
+    }
+
+    private int getIcon(String asset) {
+        Context context = TraderApplication.getInstance();
+        return context.getResources().getIdentifier(asset.toLowerCase(), "drawable", context.getPackageName());
+    }
+
+    private int getColorPercent(BigDecimalWrapper percent) {
+        return percent.gt(BigDecimalWrapper.ZERO) ? Color.parseColor("#00bfbf") : Color.RED;
     }
 
     private void initChart() {
