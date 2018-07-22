@@ -590,7 +590,7 @@ public class DateTimeUtils {
 
     public static long getTimestampOhlcAfter() {
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR, cal.get(Calendar.HOUR_OF_DAY) - 24);
+        cal.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY) - 24);
 
         return cal.getTimeInMillis();
     }
