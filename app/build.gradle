@@ -1,0 +1,152 @@
+apply plugin: 'com.android.application'
+
+def keyStorePropertiesFile = rootProject.file("keystore.properties")
+def keyStoreProperties = new Properties()
+keyStoreProperties.load(new FileInputStream(keyStorePropertiesFile))
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        applicationId globalConfiguration["androidApplicationId"]
+        versionCode globalConfiguration["androidVersionCode"]
+        versionName globalConfiguration["androidVersionName"]
+        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
+        testApplicationId globalConfiguration["testApplicationId"]
+
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file(keyStoreProperties["storeFileDebug"])
+        }
+        release {
+            keyAlias keyStoreProperties["keyAlias"]
+            keyPassword keyStoreProperties["keyPassword"]
+            storeFile file(keyStoreProperties["storeFile"])
+            storePassword keyStoreProperties["storePassword"]
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+
+        release {
+            minifyEnabled true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    '../proguard-rules/common-proguard-rules.pro',
+                    '../proguard-rules/android-support-rules.pro',
+                    '../proguard-rules/junit.pro',
+                    '../proguard-rules/retrofit2',
+                    '../proguard-rules/okhttp3-rules.pro',
+                    '../proguard-rules/gson.pro',
+                    '../proguard-rules/okio-rules.pro',
+                    '../proguard-rules/rxjava.pro',
+
+                    // dagger2
+
+                    '../proguard-rules/glide.pro',
+                    '../proguard-rules/glide-transformations.pro',
+                    '../proguard-rules/android-base-utils.pro',
+                    '../proguard-rules/calligraphy.pro',
+
+                    '../proguard-rules/realm.pro',
+                    '../proguard-rules/stetho.pro',
+                    '../proguard-rules/google-play-services.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'
+        //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+    }
+}
+
+dependencies {
+    def presentationDependencies = rootProject.ext.presentationDependencies
+    def presentationTestDependencies = rootProject.ext.presentationTestDependencies
+    def developmentDependencies = rootProject.ext.developmentDependencies
+    def globalDependencies = rootProject.ext.globalDependencies
+    def testDependencies = rootProject.ext.dataTestDependencies
+
+    testImplementation testDependencies.junit
+    testImplementation testDependencies.assertj
+    testImplementation testDependencies.mockito
+    testImplementation testDependencies.robolectric
+
+    implementation project(path: ':domain')
+    implementation project(path: ':data')
+
+    implementation presentationDependencies.recyclerView
+    implementation presentationDependencies.design
+    implementation presentationDependencies.appCompat
+    implementation presentationDependencies.cardView
+    implementation presentationDependencies.contraintLayout
+    implementation presentationDependencies.multidex
+
+    implementation presentationDependencies.rxJava
+    implementation presentationDependencies.rxAndroid
+    compileOnly presentationDependencies.javaxAnnotation
+    implementation presentationDependencies.dagger
+    implementation presentationDependencies.daggerSupport
+    annotationProcessor presentationDependencies.daggerCompiler
+    annotationProcessor presentationDependencies.daggerProcessor
+    implementation presentationDependencies.butterKnife
+    annotationProcessor presentationDependencies.butterknifeCompiler
+
+    implementation presentationDependencies.easyRecyclerview
+    implementation presentationDependencies.sdpAndroid
+    implementation presentationDependencies.sspAndroid
+    implementation presentationDependencies.mpchart
+    implementation presentationDependencies.evernoteJobService
+
+    compileOnly globalDependencies.lombok
+    annotationProcessor globalDependencies.lombok
+
+    implementation globalDependencies.mapstruct
+    annotationProcessor globalDependencies.mapstructProcessor
+
+    implementation globalDependencies.stream
+
+    androidTestImplementation presentationTestDependencies.mockito
+    androidTestImplementation presentationTestDependencies.dexmaker
+    androidTestImplementation presentationTestDependencies.dexmakerMockito
+    androidTestImplementation presentationTestDependencies.espresso
+    androidTestImplementation presentationTestDependencies.testingSupportLib
+
+    testImplementation presentationTestDependencies.powerMock
+    testImplementation presentationTestDependencies.powerMockRule
+    testImplementation presentationTestDependencies.powerMockApiMockito
+    testImplementation presentationTestDependencies.powerMockXStream
+
+    //Development
+    implementation developmentDependencies.leakCanary
+}

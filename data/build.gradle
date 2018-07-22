@@ -1,0 +1,89 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.7.0'
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    defaultPublishConfig "debug"
+
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        versionCode globalConfiguration["androidVersionCode"]
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'  // Some libraries have issues with this
+        disable 'OldTargetApi'    // Due to Robolectric that modifies the manifest when running tests
+    }
+    buildToolsVersion '27.0.3'
+}
+
+dependencies {
+    def dataDependencies = rootProject.ext.dataDependencies
+    def testDependencies = rootProject.ext.dataTestDependencies
+    def globalDependencies = rootProject.ext.globalDependencies
+
+    testImplementation testDependencies.junit
+    testImplementation testDependencies.assertj
+    testImplementation testDependencies.mockito
+    testImplementation testDependencies.robolectric
+
+    api project(path: ':domain')
+
+    api dataDependencies.javaxInject
+    api dataDependencies.retrofit
+    api dataDependencies.retrofitConverterGson
+    api dataDependencies.retrofitAdapterRxJava
+    api dataDependencies.loggingInterceptor
+    api dataDependencies.gson
+    api dataDependencies.rxJava
+    api dataDependencies.rxAndroid
+    api dataDependencies.androidAnnotations
+
+    compileOnly globalDependencies.lombok
+    annotationProcessor globalDependencies.lombok
+
+    implementation globalDependencies.stream
+
+    api dataDependencies.roomRuntime
+    annotationProcessor dataDependencies.roomCompiler
+    api dataDependencies.roomRxJava2
+
+    implementation globalDependencies.mapstruct
+    annotationProcessor globalDependencies.mapstructProcessor
+
+    androidTestImplementation dataTestDependencies.roomTestCoreTesting
+    androidTestImplementation dataTestDependencies.roomTestRuntime
+    androidTestAnnotationProcessor dataTestDependencies.roomTestAnnotation
+    androidTestDebugAnnotationProcessor dataTestDependencies.roomTestDebugAnnotation
+    androidTestImplementation dataTestDependencies.roomTestImplementation
+}

@@ -1,0 +1,155 @@
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    //App
+    androidApplicationId = 'com.huynh.xinh.trader'
+    androidVersionCode = 1
+    androidVersionName = "1.0"
+    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+    testApplicationId = 'com.huynh.xinh.trader.test'
+
+    //Android
+    androidBuildToolsVersion = "27.0.3"
+    androidMinSdkVersion = 21
+    androidTargetSdkVersion = 27
+    androidCompileSdkVersion = 27
+
+    //Google
+    supportLibrary = '26.1.0'
+    contraintLayout = '1.0.2'
+    multidex = '1.0.1'
+    googleService = '11.4.2'
+
+    //Libraries
+    daggerVersion = '2.15'
+    butterKnifeVersion = '8.8.1'
+    rxJavaVersion = '2.1.5'
+    rxAndroidVersion = '2.0.1'
+    javaxAnnotationVersion = '1.0'
+    javaxInjectVersion = '1'
+    gsonVersion = '2.8.2'
+    okHttpVersion = '3.8.0'
+    retrofit = '2.3.0'
+    androidAnnotationsVersion = '21.0.3'
+    arrowVersion = '1.0.0'
+    lombokVersion = '1.18.0'
+    easyRecyclerviewVersion = '4.4.2'
+    sdp_sdpVersion = '1.0.4'
+    streamVersion = '1.1.8'
+    roomVersion = '1.1.1'
+    mapstructVersion = '1.2.0.Final'
+    mpchartVersion = 'v3.0.3'
+    evernoteVersion = '1.3.0-alpha04'
+
+    //Testing
+    robolectricVersion = '3.1.1'
+    jUnitVersion = '4.12'
+    assertJVersion = '1.7.1'
+    mockitoVersion = '2.10.0'
+    dexmakerVersion = '1.0'
+    espressoVersion = '2.0'
+    testingSupportLibVersion = '0.1'
+    powerMockVersion = '2.0.0-beta.5'
+
+    //Development
+    leakCanaryVersion = '1.3.1'
+
+    presentationDependencies = [
+            recyclerView       : "com.android.support:recyclerview-v7:${supportLibrary}",
+            design             : "com.android.support:design:${supportLibrary}",
+            appCompat          : "com.android.support:appcompat-v7:${supportLibrary}",
+            cardView           : "com.android.support:cardview-v7:${supportLibrary}",
+            contraintLayout    : "com.android.support.constraint:constraint-layout:${contraintLayout}",
+            multidex           : "com.android.support:multidex:${multidex}",
+
+            butterKnife        : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            butterknifeCompiler: "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+            rxJava             : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid          : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            javaxAnnotation    : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            dagger             : "com.google.dagger:dagger:${daggerVersion}",
+            daggerCompiler     : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            daggerProcessor    : "com.google.dagger:dagger-android-processor:${daggerVersion}",
+            daggerSupport      : "com.google.dagger:dagger-android-support:${daggerVersion}",
+            easyRecyclerview   : "com.jude:easyrecyclerview:${easyRecyclerviewVersion}",
+            sdpAndroid         : "com.intuit.sdp:sdp-android:${sdp_sdpVersion}",
+            sspAndroid         : "com.intuit.ssp:ssp-android:${sdp_sdpVersion}",
+            mpchart            : "com.github.PhilJay:MPAndroidChart:${mpchartVersion}",
+            evernoteJobService : "com.evernote:android-job:${evernoteVersion}"
+    ]
+
+    presentationTestDependencies = [
+            mockito            : "org.mockito:mockito-core:${mockitoVersion}",
+            dexmaker           : "com.google.dexmaker:dexmaker:${dexmakerVersion}",
+            dexmakerMockito    : "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
+            espresso           : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+            testingSupportLib  : "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
+            robolectric        : "org.robolectric:robolectric:${robolectricVersion}",
+
+            powerMock          : "org.powermock:powermock-module-junit4:${powerMockVersion}",
+            powerMockRule      : "org.powermock:powermock-module-junit4-rule:${powerMockVersion}",
+            powerMockApiMockito: "org.powermock:powermock-api-mockito2:${powerMockVersion}",
+            powerMockXStream   : "org.powermock:powermock-classloading-xstream:${powerMockVersion}",
+    ]
+
+    domainDependencies = [
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
+            rxJava         : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            arrow          : "com.fernandocejas:arrow:${arrowVersion}"
+    ]
+
+    domainTestDependencies = [
+            junit  : "junit:junit:${jUnitVersion}",
+            mockito: "org.mockito:mockito-core:${mockitoVersion}",
+            assertj: "org.assertj:assertj-core:${assertJVersion}"
+    ]
+
+    dataDependencies = [
+            retrofit             : "com.squareup.retrofit2:retrofit:${retrofit}",
+            retrofitConverterGson: "com.squareup.retrofit2:converter-gson:${retrofit}",
+            retrofitAdapterRxJava: "com.squareup.retrofit2:adapter-rxjava2:${retrofit}",
+            loggingInterceptor   : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+            gson                 : "com.google.code.gson:gson:${gsonVersion}",
+            rxJava               : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid            : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject          : "javax.inject:javax.inject:${javaxInjectVersion}",
+            androidAnnotations   : "com.android.support:support-annotations:${androidAnnotationsVersion}",
+
+            roomRuntime          : "android.arch.persistence.room:runtime:${roomVersion}",
+            roomCompiler         : "android.arch.persistence.room:compiler:${roomVersion}",
+            roomRxJava2          : "android.arch.persistence.room:rxjava2:${roomVersion}"
+    ]
+
+    dataTestDependencies = [
+            junit                  : "junit:junit:${jUnitVersion}",
+            assertj                : "org.assertj:assertj-core:${assertJVersion}",
+            mockito                : "org.mockito:mockito-core:${mockitoVersion}",
+            robolectric            : "org.robolectric:robolectric:${robolectricVersion}",
+
+            roomTestCoreTesting    : "android.arch.core:core-testing:${roomVersion}",
+            roomTestRuntime        : "android.arch.persistence.room:runtime:${roomVersion}",
+            roomTestAnnotation     : "android.arch.persistence.room:compiler:${roomVersion}",
+            roomTestDebugAnnotation: "android.arch.persistence.room:compiler:${roomVersion}",
+            roomTestImplementation : "android.arch.persistence.room:testing:${roomVersion}",
+    ]
+
+    developmentDependencies = [
+            leakCanary: "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
+    ]
+
+    globalDependencies = [
+            lombok                   : "org.projectlombok:lombok:${lombokVersion}",
+            lombokAnnotationProcessor: "org.projectlombok:lombok:${lombokVersion}",
+
+            mapstruct                : "org.mapstruct:mapstruct:${mapstructVersion}",
+            mapstructProcessor       : "org.mapstruct:mapstruct-processor:${mapstructVersion}",
+
+            stream                   : "com.annimon:stream:${streamVersion}"
+    ]
+}

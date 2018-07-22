@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jude.easyrecyclerview.EasyRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/recycler_view_all"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    app:layout_empty="@layout/view_empty_all"
+    app:layout_progress="@layout/view_progress_all"
+    app:recyclerClipToPadding="true"
+    app:scrollbarStyle="insideOverlay" />

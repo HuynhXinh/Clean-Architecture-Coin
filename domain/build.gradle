@@ -1,0 +1,37 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.7.0'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'jacoco'
+
+//noinspection GroovyUnusedAssignment
+sourceCompatibility = 1.8
+//noinspection GroovyUnusedAssignment
+targetCompatibility = 1.8
+
+dependencies {
+    def domainDependencies = rootProject.ext.domainDependencies
+    def domainTestDependencies = rootProject.ext.domainTestDependencies
+    def globalDependencies = rootProject.ext.globalDependencies
+
+    testImplementation domainTestDependencies.junit
+    testImplementation domainTestDependencies.mockito
+    testImplementation domainTestDependencies.assertj
+
+    implementation domainDependencies.javaxInject
+    implementation domainDependencies.rxJava
+    implementation domainDependencies.arrow
+
+    compileOnly domainDependencies.javaxAnnotation
+    compileOnly globalDependencies.lombok
+}
+
+jacoco {
+    toolVersion = "0.7.4+"
+}
