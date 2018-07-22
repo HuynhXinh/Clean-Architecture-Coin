@@ -1,13 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/common_bg_color"
     tools:context="com.huynh.xinh.trader.ui.main.MainActivity">
 
     <FrameLayout
         android:id="@+id/fl_main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_home_tab" />
+
+    <LinearLayout
+        android:id="@+id/ll_home_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:minHeight="45dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/img_home_tab_market"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:tint="@color/home_style_tab_selected"
+            app:srcCompat="@drawable/ic_home_ic_svg_market" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/img_home_tab_favourite"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:tint="@color/home_style_tab_selected"
+            app:srcCompat="@drawable/ic_home_ic_svg_favourite" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/img_home_tab_reminded"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:tint="@color/home_style_tab_selected"
+            app:srcCompat="@drawable/ic_home_ic_svg_reminded" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/img_home_tab_setting"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:tint="@color/home_style_tab_selected"
+            app:srcCompat="@drawable/ic_home_ic_svg_setting" />
+
+    </LinearLayout>
 
 </RelativeLayout>

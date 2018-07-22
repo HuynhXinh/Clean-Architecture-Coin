@@ -29,6 +29,7 @@ public class MarketPresenter extends BasePresenter<MarketContract.View> implemen
 
     @Override
     public void loadExchanges() {
+        getView().showLoading();
         Exchange exchange = Stream.of(ExchangeManager.getInstance().getExchanges())
                 .filter(value -> "bitfinex".equalsIgnoreCase(value.getSymbol()))
                 .findSingle()

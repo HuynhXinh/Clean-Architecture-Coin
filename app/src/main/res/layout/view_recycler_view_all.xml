@@ -4,7 +4,7 @@
     android:id="@+id/recycler_view_all"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@android:color/transparent"
     app:layout_empty="@layout/view_empty_all"
     app:layout_progress="@layout/view_progress_all"
     app:recyclerClipToPadding="true"

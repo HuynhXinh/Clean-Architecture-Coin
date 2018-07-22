@@ -24,6 +24,8 @@ public class MarketFragment extends BaseFragment implements MarketContract.View,
         SwipeRefreshLayout.OnRefreshListener,
         RecyclerArrayAdapter.OnItemClickListener {
 
+    public static final String TAG = "MarketFragment";
+
     @BindView(R.id.recycler_view_all)
     EasyRecyclerView recyclerView;
 
@@ -112,6 +114,11 @@ public class MarketFragment extends BaseFragment implements MarketContract.View,
     @Override
     public void onShowExchange(Exchange exchange) {
         presenter.refresh();
+    }
+
+    @Override
+    public void showLoading() {
+        recyclerView.showProgress();
     }
 
     @Override

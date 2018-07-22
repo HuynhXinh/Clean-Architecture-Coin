@@ -9,6 +9,8 @@ public class MarketContract {
     interface View extends Contract.IView {
         void onShowExchange(Exchange exchange);
 
+        void showLoading();
+
         void render(List<MarketViewModel> marketViewModels);
 
         void renderMore(List<MarketViewModel> marketViewModels);

@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_5sdp"
-            android:textColor="@color/black_50"
+            android:textColor="@color/color_black_50"
             android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toBottomOf="@id/tv_market_asset"
             app:layout_constraintStart_toEndOf="@id/tv_market_asset"
