@@ -13,7 +13,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 
 public class ExchangeRepositoryImpl implements ExchangeRepository {
     private final ExchangeApi exchangeApi;
@@ -28,9 +27,10 @@ public class ExchangeRepositoryImpl implements ExchangeRepository {
     @Override
     public Observable<Boolean> syncExchanges() {
         return exchangeApi.getListExchangeMarket()
-                .map((Function<ListExchangeResponse, List<ExchangeDto>>) response -> {
-                    if (response.getData() != null && !response.getData().isEmpty()) {
-                        return response.getData();
+                .map(response -> {
+                    List<ExchangeDto> exchangeDtos = response.getData();
+                    if (exchangeDtos != null && !exchangeDtos.isEmpty()) {
+                        return exchangeDtos;
                     }
                     throw new SyncExChangeException();
                 })
@@ -40,6 +40,8 @@ public class ExchangeRepositoryImpl implements ExchangeRepository {
                             .toList();
 
                     exchangeDao.save(ExchangeMapper.INSTANCE.toExchangeEntities(exchangeSupports));
+                    List<Long> exchangeSupportIds = Stream.of(exchangeSupports).map(ExchangeDto::getId).toList();
+                    exchangeDao.delete(exchangeSupportIds);
                 })
                 .map(exchangeDtos -> exchangeDtos != null && !exchangeDtos.isEmpty());
     }

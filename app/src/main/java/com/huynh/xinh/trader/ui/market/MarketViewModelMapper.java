@@ -1,18 +1,11 @@
 package com.huynh.xinh.trader.ui.market;
 
-import android.content.Context;
-import android.graphics.Color;
-
 import com.huynh.xinh.domain.common.BigDecimalWrapper;
 import com.huynh.xinh.domain.models.MarketSummary;
-import com.huynh.xinh.trader.TraderApplication;
-import com.huynh.xinh.trader.utils.AssetAndQuoteUtils;
 
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -23,10 +16,6 @@ public interface MarketViewModelMapper {
 
     List<MarketViewModel> toMarketViewModels(List<MarketSummary> markets);
 
-    @Mappings({
-            @Mapping(target = "asset", expression = "java(getAsset(marketSummary))"),
-            @Mapping(target = "quote", expression = "java(getQuote(marketSummary))")
-    })
     MarketViewModel toMarketViewModel(MarketSummary marketSummary);
 
     @AfterMapping
@@ -36,13 +25,5 @@ public interface MarketViewModelMapper {
                 .round2DecimalHalfUp()
                 .format2DecimalHalfUpSign() + "%";
         marketViewModel.setPercentFormat(percentFormat);
-    }
-
-    default String getAsset(MarketSummary marketSummary) {
-        return AssetAndQuoteUtils.getAsset(marketSummary.getPair()).toUpperCase();
-    }
-
-    default String getQuote(MarketSummary marketSummary) {
-        return AssetAndQuoteUtils.getQuote(marketSummary.getPair()).toUpperCase();
     }
 }

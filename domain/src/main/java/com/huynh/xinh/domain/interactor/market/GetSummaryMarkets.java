@@ -32,22 +32,24 @@ public class GetSummaryMarkets extends UseCase<List<MarketSummary>, GetMarketPar
 
         return marketRepository.getMarkets(exchangeName, page, MAX_RESULT)
                 .flatMapIterable(markets -> markets)
-                .flatMap(market -> marketRepository.getMarketDetail(market.getRoute()))
-                .flatMap(marketDetail -> {
-                    String summaryUrl = marketDetail.getRoutes().getSummary();
-                    String ohlcUrl = marketDetail.getRoutes().getOhlc();
+                .flatMap(market -> {
+                    String marketName = market.getExchange();
+                    String pair = market.getPair();
                     return Observable.zip(
-                            marketRepository.getSummary(summaryUrl),
-                            marketRepository.getOhlc(ohlcUrl, param.getAfter(), param.getPeriods()),
+                            marketRepository.getSummary(marketName, pair),
+                            marketRepository.getOhlc(marketName, pair, param.getAfter(), param.getPeriods()),
                             (summary, ohlc) ->
                                     MarketSummaryMapper.builder()
-                                            .marketDetail(marketDetail)
+                                            .pair(pair)
+                                            .asset(market.getAsset())
+                                            .quote(market.getQuote())
                                             .summary(summary)
                                             .ohlc(ohlc)
                                             .build()
                                             .getMarketSummary());
                 })
-                .toList().toObservable();
+                .toList()
+                .toObservable();
 
     }
 }

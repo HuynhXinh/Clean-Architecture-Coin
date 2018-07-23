@@ -16,4 +16,7 @@ public interface CoinDao {
 
     @Query("SELECT * FROM COIN ")
     Maybe<List<CoinEntity>> getAllCoins();
+
+    @Query("DELETE FROM COIN WHERE id NOT IN (:ids) ")
+    void delete(List<Long> ids);
 }

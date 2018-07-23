@@ -60,8 +60,8 @@ public class ItemMarketViewHolder extends BaseViewHolder<MarketViewModel> {
         setDataChart(viewModel.getPeriods());
 
         icon.setImageResource(getIcon(viewModel.getAsset()));
-        tvAsset.setText(viewModel.getAsset());
-        tvQuote.setText(viewModel.getQuote());
+        tvAsset.setText(viewModel.getAsset().toUpperCase());
+        tvQuote.setText(viewModel.getQuote().toUpperCase());
         tvPrice.setText(viewModel.getPrice().format2DecimalHalfUp());
         tvPercent.setText(viewModel.getPercentFormat());
         tvPercent.setTextColor(getColorPercent(viewModel.getPercent()));
