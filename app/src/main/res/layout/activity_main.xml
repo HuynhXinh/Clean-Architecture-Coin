@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/bg_tab_home"
+        android:background="@drawable/home_bg_tab"
         android:minHeight="45dp">
 
         <android.support.v7.widget.AppCompatImageView
@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:tint="@color/home_style_tab_selected"
-            app:srcCompat="@drawable/ic_home_ic_svg_market" />
+            app:srcCompat="@drawable/home_ic_market" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/img_home_tab_favourite"
@@ -37,7 +37,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:tint="@color/home_style_tab_selected"
-            app:srcCompat="@drawable/ic_home_ic_svg_favourite" />
+            app:srcCompat="@drawable/home_ic_favourite" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/img_home_tab_reminded"
@@ -46,7 +46,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:tint="@color/home_style_tab_selected"
-            app:srcCompat="@drawable/ic_home_ic_svg_reminded" />
+            app:srcCompat="@drawable/home_ic_reminded" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/img_home_tab_setting"
@@ -55,7 +55,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:tint="@color/home_style_tab_selected"
-            app:srcCompat="@drawable/ic_home_ic_svg_setting" />
+            app:srcCompat="@drawable/home_ic_setting" />
 
     </LinearLayout>
 

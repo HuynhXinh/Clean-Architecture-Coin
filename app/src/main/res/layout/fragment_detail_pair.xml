@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:id="@+id/rl_fragment_detail_pair_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@drawable/header_bg_tool_bar">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/img_fragment_detail_pair_btn_back"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/_7sdp"
+            app:srcCompat="@drawable/header_ic_back_24dp" />
+
+        <TextView
+            android:id="@+id/tv_fragment_detail_pair_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@+id/img_fragment_detail_pair_btn_back"
+            android:layout_toStartOf="@+id/img_fragment_detail_pair_btn_favourite"
+            android:gravity="center"
+            android:textSize="@dimen/_15ssp"
+            tools:text="BTC/USD"
+            tools:textColor="@android:color/black" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/img_fragment_detail_pair_btn_favourite"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/_12sdp"
+            app:srcCompat="@drawable/header_ic_favourite_24dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_fragment_detail_pair_last_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:textSize="@dimen/_18ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rl_fragment_detail_pair_tool_bar"
+        tools:text="7289.93"
+        tools:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tv_fragment_detail_pair_price_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="@dimen/_10ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_fragment_detail_pair_last_price"
+        tools:text="+118.97 (1.88%)"
+        tools:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tv_fragment_detail_pair_price_high"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_fragment_detail_pair_price_change"
+        tools:text="High 7222.88"
+        tools:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tv_fragment_detail_pair_price_low"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_fragment_detail_pair_price_change"
+        tools:text="Low 6610"
+        tools:textColor="@android:color/black" />
+
+    <LinearLayout
+        android:id="@+id/ll_fragment_detail_pair_tab_range_time"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@color/color_black_50"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_fragment_detail_pair_price_low" />
+
+    <com.github.mikephil.charting.charts.CandleStickChart
+        android:id="@+id/candle_chart_fragment_detail_pair"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_fragment_detail_pair_tab_range_time" />
+
+</android.support.constraint.ConstraintLayout>

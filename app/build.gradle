@@ -127,6 +127,7 @@ dependencies {
     implementation presentationDependencies.sspAndroid
     implementation presentationDependencies.mpchart
     implementation presentationDependencies.evernoteJobService
+    implementation presentationDependencies.spanner
 
     compileOnly globalDependencies.lombok
     annotationProcessor globalDependencies.lombok

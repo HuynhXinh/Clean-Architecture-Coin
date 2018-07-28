@@ -12,8 +12,6 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IFillFormatter;
-import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 import com.huynh.xinh.domain.common.BigDecimalWrapper;
@@ -29,7 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ItemMarketViewHolder extends BaseViewHolder<MarketViewModel> {
+public class ItemMarketViewHolder extends BaseViewHolder<ItemMarketViewModel> {
 
     @BindView(R.id.img_market_icon)
     AppCompatImageView icon;
@@ -46,7 +44,7 @@ public class ItemMarketViewHolder extends BaseViewHolder<MarketViewModel> {
     @BindView(R.id.chart_item_market)
     LineChart chart;
 
-    public ItemMarketViewHolder(ViewGroup parent) {
+    ItemMarketViewHolder(ViewGroup parent) {
         super(parent, R.layout.item_market);
         ButterKnife.bind(this, itemView);
 
@@ -54,7 +52,7 @@ public class ItemMarketViewHolder extends BaseViewHolder<MarketViewModel> {
     }
 
     @Override
-    public void setData(MarketViewModel viewModel) {
+    public void setData(ItemMarketViewModel viewModel) {
         super.setData(viewModel);
 
         setDataChart(viewModel.getPeriods());
@@ -124,7 +122,7 @@ public class ItemMarketViewHolder extends BaseViewHolder<MarketViewModel> {
         }
     }
 
-    LineDataSet createLineDataSet(List<Entry> values) {
+    private LineDataSet createLineDataSet(List<Entry> values) {
         LineDataSet lineDataSet = new LineDataSet(new ArrayList<>(values), "");
 
         lineDataSet.enableDashedLine(0, 0, 0);
@@ -135,13 +133,7 @@ public class ItemMarketViewHolder extends BaseViewHolder<MarketViewModel> {
         lineDataSet.setDrawCircleHole(false);
         lineDataSet.setDrawValues(false);
         lineDataSet.setDrawFilled(true);
-//        lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        lineDataSet.setFillFormatter(new IFillFormatter() {
-            @Override
-            public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
-                return 0;
-            }
-        });
+        lineDataSet.setFillFormatter((dataSet, dataProvider) -> 0);
 
         if (Utils.getSDKInt() >= 18) {
             Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.item_market_color_chart);

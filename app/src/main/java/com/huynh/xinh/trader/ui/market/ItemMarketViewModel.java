@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MarketViewModel {
+class ItemMarketViewModel {
     private String pair;
     private String asset;
     private String quote;

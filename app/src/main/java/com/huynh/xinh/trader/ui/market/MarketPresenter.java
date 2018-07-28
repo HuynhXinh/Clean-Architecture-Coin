@@ -10,6 +10,7 @@ import com.huynh.xinh.domain.models.Exchange;
 import com.huynh.xinh.domain.models.MarketSummary;
 import com.huynh.xinh.trader.base.presenter.BasePresenter;
 import com.huynh.xinh.trader.ui.ExchangeManager;
+import com.huynh.xinh.trader.ui.detail.DetailPairParam;
 import com.huynh.xinh.trader.utils.CommonUtils;
 
 import java.util.List;
@@ -53,6 +54,16 @@ public class MarketPresenter extends BasePresenter<MarketContract.View> implemen
         loadMarkets();
     }
 
+    @Override
+    public void onItemClick(ItemMarketViewModel marketViewModel) {
+        DetailPairParam detailPairParam = MarketViewModelMapper.INSTANCE.toDetailPairParam(marketViewModel);
+        Exchange exchange = marketPresenterModel.getExchange();
+        detailPairParam.setMarketName(exchange.getName());
+        detailPairParam.setMarketSymbol(exchange.getSymbol());
+
+        getView().startDetailPairActivity(detailPairParam);
+    }
+
     private void loadMarkets() {
         String exchangeName = marketPresenterModel.getExchange().getSymbol();
         int page = marketPresenterModel.getPage();
@@ -69,7 +80,7 @@ public class MarketPresenter extends BasePresenter<MarketContract.View> implemen
             public void onNext(List<MarketSummary> marketSummaries) {
                 super.onNext(marketSummaries);
 
-                List<MarketViewModel> marketViewModels = MarketViewModelMapper.INSTANCE.toMarketViewModels(marketSummaries);
+                List<ItemMarketViewModel> marketViewModels = MarketViewModelMapper.INSTANCE.toMarketViewModels(marketSummaries);
 
                 if (isRefresh()) {
                     if (!CommonUtils.isListEmpty(marketSummaries)) {

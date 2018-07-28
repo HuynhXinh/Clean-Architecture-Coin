@@ -1,7 +1,7 @@
 package com.huynh.xinh.trader.ui.market;
 
-import com.huynh.xinh.domain.common.BigDecimalWrapper;
 import com.huynh.xinh.domain.models.MarketSummary;
+import com.huynh.xinh.trader.ui.detail.DetailPairParam;
 
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
@@ -10,20 +10,23 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
+import static com.huynh.xinh.domain.common.BigDecimalWrapper.ONE_HUNDRED;
+
 @Mapper
 public interface MarketViewModelMapper {
     MarketViewModelMapper INSTANCE = Mappers.getMapper(MarketViewModelMapper.class);
 
-    List<MarketViewModel> toMarketViewModels(List<MarketSummary> markets);
+    List<ItemMarketViewModel> toMarketViewModels(List<MarketSummary> markets);
 
-    MarketViewModel toMarketViewModel(MarketSummary marketSummary);
+    ItemMarketViewModel toMarketViewModel(MarketSummary marketSummary);
 
     @AfterMapping
-    default void additionField(@MappingTarget MarketViewModel marketViewModel) {
+    default void additionField(@MappingTarget ItemMarketViewModel marketViewModel) {
         String percentFormat = marketViewModel.getPercent()
-                .multiply(BigDecimalWrapper.ONE_HUNDRED)
-                .round2DecimalHalfUp()
+                .multiply(ONE_HUNDRED)
                 .format2DecimalHalfUpSign() + "%";
         marketViewModel.setPercentFormat(percentFormat);
     }
+
+    DetailPairParam toDetailPairParam(ItemMarketViewModel marketViewModel);
 }

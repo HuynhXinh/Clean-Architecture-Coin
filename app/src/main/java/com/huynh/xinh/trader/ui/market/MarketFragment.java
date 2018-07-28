@@ -8,6 +8,8 @@ import android.view.View;
 import com.huynh.xinh.domain.models.Exchange;
 import com.huynh.xinh.trader.R;
 import com.huynh.xinh.trader.base.ui.BaseFragment;
+import com.huynh.xinh.trader.ui.detail.DetailPairActivity;
+import com.huynh.xinh.trader.ui.detail.DetailPairParam;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.SpaceDecoration;
@@ -108,7 +110,7 @@ public class MarketFragment extends BaseFragment implements MarketContract.View,
 
     @Override
     public void onItemClick(int position) {
-
+        presenter.onItemClick(adapter.getAllData().get(position));
     }
 
     @Override
@@ -122,13 +124,13 @@ public class MarketFragment extends BaseFragment implements MarketContract.View,
     }
 
     @Override
-    public void render(List<MarketViewModel> marketViewModels) {
+    public void render(List<ItemMarketViewModel> marketViewModels) {
         adapter.clear();
         adapter.addAll(marketViewModels);
     }
 
     @Override
-    public void renderMore(List<MarketViewModel> marketViewModels) {
+    public void renderMore(List<ItemMarketViewModel> marketViewModels) {
         adapter.addAll(marketViewModels);
     }
 
@@ -145,5 +147,10 @@ public class MarketFragment extends BaseFragment implements MarketContract.View,
     @Override
     public void hideLoadMore() {
         adapter.stopMore();
+    }
+
+    @Override
+    public void startDetailPairActivity(DetailPairParam detailPairParam) {
+        DetailPairActivity.start(getActivity(), detailPairParam);
     }
 }
