@@ -48,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/_20sdp"
+        android:textColor="@android:color/black"
         android:textSize="@dimen/_18ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,16 +96,23 @@
         tools:text="Low 6610"
         tools:textColor="@android:color/black" />
 
-    <LinearLayout
-        android:id="@+id/ll_fragment_detail_pair_tab_range_time"
+    <HorizontalScrollView
+        android:id="@+id/hsv_fragment_detail_pair_tab_period_time"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:background="@color/color_black_50"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_fragment_detail_pair_price_low" />
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/tv_fragment_detail_pair_price_low">
+
+        <LinearLayout
+            android:id="@+id/ll_fragment_detail_pair_tab_period_time"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:background="@color/color_black_50" />
+    </HorizontalScrollView>
 
     <com.github.mikephil.charting.charts.CandleStickChart
         android:id="@+id/candle_chart_fragment_detail_pair"
@@ -112,6 +120,6 @@
         android:layout_height="@dimen/_150sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_fragment_detail_pair_tab_range_time" />
+        app:layout_constraintTop_toBottomOf="@id/hsv_fragment_detail_pair_tab_period_time" />
 
 </android.support.constraint.ConstraintLayout>

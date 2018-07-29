@@ -39,7 +39,7 @@ public class OhlcDto {
     private List<List<BigDecimal>> sixHour;
 
     @SerializedName("43200")
-    private List<List<BigDecimal>> twelfth;
+    private List<List<BigDecimal>> twelfthHour;
 
     @SerializedName("86400")
     private List<List<BigDecimal>> oneDay;

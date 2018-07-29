@@ -6,11 +6,12 @@ import android.os.Bundle;
 
 import com.huynh.xinh.trader.R;
 import com.huynh.xinh.trader.base.ui.BaseActivity;
+import com.huynh.xinh.trader.ui.detail.model.DetailPairFragmentParam;
 
 import static com.huynh.xinh.trader.Constants.BUNDLE_DETAIL_PAIR_PRESENTER_MODEL;
 
 public class DetailPairActivity extends BaseActivity {
-    public static void start(Context context, DetailPairParam detailPairParam) {
+    public static void start(Context context, DetailPairFragmentParam detailPairParam) {
         Intent intent = new Intent(context, DetailPairActivity.class);
         intent.putExtra(BUNDLE_DETAIL_PAIR_PRESENTER_MODEL, detailPairParam);
         context.startActivity(intent);
@@ -23,7 +24,7 @@ public class DetailPairActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        DetailPairParam detailPairParam = (DetailPairParam) getIntent().getExtras().get(BUNDLE_DETAIL_PAIR_PRESENTER_MODEL);
+        DetailPairFragmentParam detailPairParam = (DetailPairFragmentParam) getIntent().getExtras().get(BUNDLE_DETAIL_PAIR_PRESENTER_MODEL);
         DetailPairFragment detailPairFragment = DetailPairFragment.newInstance(detailPairParam);
 
         getSupportFragmentManager().beginTransaction()

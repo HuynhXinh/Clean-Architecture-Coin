@@ -5,15 +5,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.huynh.xinh.data.utils.DateTimeUtils;
 import com.huynh.xinh.domain.models.Exchange;
 import com.huynh.xinh.trader.R;
 import com.huynh.xinh.trader.base.ui.BaseFragment;
 import com.huynh.xinh.trader.ui.detail.DetailPairActivity;
-import com.huynh.xinh.trader.ui.detail.DetailPairParam;
+import com.huynh.xinh.trader.ui.detail.model.DetailPairFragmentParam;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.SpaceDecoration;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -73,7 +75,14 @@ public class MarketFragment extends BaseFragment implements MarketContract.View,
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        presenter.setPeriodAfter(getPeriodAfter());
         presenter.loadExchanges();
+    }
+
+    private long getPeriodAfter() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY) - 24);
+        return DateTimeUtils.toUnixTimestamp(cal.getTimeInMillis());
     }
 
     @Override
@@ -150,7 +159,7 @@ public class MarketFragment extends BaseFragment implements MarketContract.View,
     }
 
     @Override
-    public void startDetailPairActivity(DetailPairParam detailPairParam) {
+    public void startDetailPairActivity(DetailPairFragmentParam detailPairParam) {
         DetailPairActivity.start(getActivity(), detailPairParam);
     }
 }

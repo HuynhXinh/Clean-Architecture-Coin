@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MarketPresenterModel {
+    private long periodAfter;
     private Exchange exchange;
     private int page;
 }

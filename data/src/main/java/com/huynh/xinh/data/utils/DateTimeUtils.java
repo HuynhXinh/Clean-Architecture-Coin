@@ -580,19 +580,8 @@ public class DateTimeUtils {
         return getTimeAgo(context, date, DateTimeStyle.AGO_FULL_STRING);
     }
 
-    public static long getLocalUnixTimestampOhlcAfter() {
-        return toUnixTimestamp(getTimestampOhlcAfter());
-    }
-
     public static long toUnixTimestamp(long timestamp) {
         return timestamp / 1000;
-    }
-
-    public static long getTimestampOhlcAfter() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY) - 24);
-
-        return cal.getTimeInMillis();
     }
 
     public static long toLocalTimestamp(long timestampUTC) {

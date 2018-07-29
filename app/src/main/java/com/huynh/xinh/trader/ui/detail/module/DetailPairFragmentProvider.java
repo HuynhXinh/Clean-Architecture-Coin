@@ -1,4 +1,6 @@
-package com.huynh.xinh.trader.ui.detail;
+package com.huynh.xinh.trader.ui.detail.module;
+
+import com.huynh.xinh.trader.ui.detail.DetailPairFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

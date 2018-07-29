@@ -1,7 +1,7 @@
 package com.huynh.xinh.trader.ui.market;
 
 import com.huynh.xinh.domain.models.MarketSummary;
-import com.huynh.xinh.trader.ui.detail.DetailPairParam;
+import com.huynh.xinh.trader.ui.detail.model.DetailPairFragmentParam;
 
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
@@ -28,5 +28,5 @@ public interface MarketViewModelMapper {
         marketViewModel.setPercentFormat(percentFormat);
     }
 
-    DetailPairParam toDetailPairParam(ItemMarketViewModel marketViewModel);
+    DetailPairFragmentParam toDetailPairParam(ItemMarketViewModel marketViewModel);
 }

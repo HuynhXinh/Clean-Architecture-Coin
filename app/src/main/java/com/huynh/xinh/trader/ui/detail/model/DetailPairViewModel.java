@@ -1,4 +1,4 @@
-package com.huynh.xinh.trader.ui.detail;
+package com.huynh.xinh.trader.ui.detail.model;
 
 import android.graphics.Color;
 
