@@ -37,6 +37,8 @@ import lt.neworld.spanner.Spans;
 import static com.huynh.xinh.trader.Constants.BUNDLE_DETAIL_PAIR_PRESENTER_MODEL;
 
 public class DetailPairFragment extends BaseFragment implements DetailPairContract.View {
+    private static final int VISIBLE_X_RANGE_MAXIMUM = 50;
+
     @BindView(R.id.tv_fragment_detail_pair_title)
     TextView tvTitlePair;
     @BindView(R.id.tv_fragment_detail_pair_last_price)
@@ -80,15 +82,11 @@ public class DetailPairFragment extends BaseFragment implements DetailPairContra
         chart.getDescription().setEnabled(false);
         chart.setPinchZoom(false);
         chart.setDrawGridBackground(false);
-        chart.fitScreen();
-        chart.moveViewToX(10);
+        chart.setDrawGridBackground(false);
 
         chart.getXAxis().setEnabled(false);
-
         chart.getAxisLeft().setEnabled(false);
-
         chart.getAxisRight().setEnabled(false);
-
         chart.getLegend().setEnabled(false);
     }
 
@@ -249,6 +247,7 @@ public class DetailPairFragment extends BaseFragment implements DetailPairContra
         CandleDataSet dataSet = new CandleDataSet(yValue, "");
 
         dataSet.setDrawIcons(false);
+        dataSet.setDrawValues(false);
         dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         dataSet.setShadowColor(Color.DKGRAY);
         dataSet.setShadowWidth(0.7f);
@@ -261,6 +260,9 @@ public class DetailPairFragment extends BaseFragment implements DetailPairContra
         CandleData data = new CandleData(dataSet);
 
         chart.setData(data);
+        chart.setVisibleXRangeMaximum(VISIBLE_X_RANGE_MAXIMUM);
+        chart.moveViewToX(periods.size() - VISIBLE_X_RANGE_MAXIMUM);
+
         chart.invalidate();
     }
 
