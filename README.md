@@ -1,4 +1,4 @@
-## Motivat
+## Motivation
   - In the past I had faced with alot of problem with code *ON IN ONE* push all of things to activities, fragments or presenters 
 and after some releases then productivity went down because of hard to changes, maintenance, extends,...
 so that why I try to investigate and apply clean architecture, clean code
@@ -36,6 +36,11 @@ so that why I try to investigate and apply clean architecture, clean code
  ### Architectural reactive approach
 -----------------
 ![http://fernandocejas.com/2015/07/18/architecting-android-the-evolution/](https://github.com/android10/Sample-Data/blob/master/Android-CleanArchitecture/clean_architecture_layers_details.png)
+
+### Welcome discusstion, contribution
+### Contact with me
+   - Skype: huynh_xinh
+   - Linkedin: ![https://www.linkedin.com/in/huynh-xinh-a48086119/]
 
 License
 --------
