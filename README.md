@@ -1,5 +1,5 @@
 ## Motivation
-  - In the past I had faced with alot of problem with code *ON IN ONE* push all of things to activities, fragments or presenters 
+  - In the past I had faced with alot of problem with code *ALL IN ONE* push all of things to activities, fragments or presenters 
 and after some releases then productivity went down because of hard to changes, maintenance, extends,...
 so that why I try to investigate and apply clean architecture, clean code
   - Article make me interest with cryptocoin: https://medium.freecodecamp.org/today-i-launched-my-first-mobile-app-heres-what-i-learned-6fc25c14eee6
@@ -40,7 +40,7 @@ so that why I try to investigate and apply clean architecture, clean code
 ### Welcome discusstion, contribution
 ### Contact with me
    - Skype: huynh_xinh
-   - Linkedin: ![https://www.linkedin.com/in/huynh-xinh-a48086119/]
+   - Linkedin: https://www.linkedin.com/in/huynh-xinh-a48086119/
 
 License
 --------
