@@ -2,6 +2,7 @@
     <string name="app_name">Trader</string>
     <string name="all_text_empty">Empty</string>
     <string name="all_smg_opps_some_thing_wrong">Opps! Some thing wrong</string>
-    <string name="detail_pair_fragment_hight">High</string>
-    <string name="detail_pair_fragment_low">Low</string>
+    <string name="fragment_detail_pair_hight">High</string>
+    <string name="fragment_detail_pair_low">Low</string>
+    <string name="fragment_detail_pair_price_at_period_time">O %s H %s L %s C %s %s</string>
 </resources>

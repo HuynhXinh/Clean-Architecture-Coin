@@ -6,6 +6,7 @@ import com.huynh.xinh.trader.base.presenter.Contract;
 import com.huynh.xinh.trader.ui.detail.model.DetailPairFragmentParam;
 import com.huynh.xinh.trader.ui.detail.model.DetailPairViewModel;
 import com.huynh.xinh.trader.ui.detail.model.ItemTabPeriodTimeViewModel;
+import com.huynh.xinh.trader.ui.detail.model.PriceAtPeriodTimeViewModel;
 
 import java.util.List;
 
@@ -25,6 +26,16 @@ public class DetailPairContract {
         void showLoading();
 
         void showError();
+
+        void showLoadChart();
+
+        void hideLoadingChart();
+
+        void clearChart();
+
+        void showErrorChart();
+
+        void showPriceAtPeriodTime(PriceAtPeriodTimeViewModel priceAtPeriodTimeViewModel);
     }
 
     public interface Presenter extends Contract.IPresenter<DetailPairContract.View> {
@@ -39,6 +50,8 @@ public class DetailPairContract {
 
         void initTabPeriodTimeView();
 
-        void getPeriod(EnumPeriod periodEnum, long periodAfter, long period);
+        void onClickPeriodTime(EnumPeriod periodEnum, long periodAfter, long period);
+
+        void showValueSelected(Period period);
     }
 }

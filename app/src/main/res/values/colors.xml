@@ -15,5 +15,6 @@
 
     <color name="color_f8e6aa">#f8e6aa</color>
 
-    <color name="color_percent_increase">#00bfbf</color>
+    <color name="all_color_decrease">#ff0000</color>
+    <color name="all_color_increase">#00ff0a</color>
 </resources>

@@ -15,6 +15,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ItemTabPeriodTimeViewModel {
     private EnumPeriod enumPeriod;
-    private String name;
-    private long value;
+
+    public String getName() {
+        return enumPeriod.key;
+    }
+
+    public long getValue() {
+        return enumPeriod.value;
+    }
 }

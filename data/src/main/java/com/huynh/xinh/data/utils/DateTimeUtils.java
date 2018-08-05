@@ -227,6 +227,8 @@ public class DateTimeUtils {
             pattern = "MMMM dd, yyyy";
         } else if (style.equals(DateTimeStyle.MEDIUM)) {
             pattern = "MMM dd, yyyy";
+        } else if (style.equals(DateTimeStyle.MEDIUM_TIME)) {
+            pattern = "MMM dd, yyyy, HH:mm";
         } else if (style.equals(DateTimeStyle.SHORT)) {
             pattern = "MM/dd/yy";
         } else {

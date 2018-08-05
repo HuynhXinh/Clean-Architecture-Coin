@@ -1,9 +1,10 @@
 package com.huynh.xinh.trader.ui.market;
 
-import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,7 +18,6 @@ import com.github.mikephil.charting.utils.Utils;
 import com.huynh.xinh.domain.common.BigDecimalWrapper;
 import com.huynh.xinh.domain.models.Period;
 import com.huynh.xinh.trader.R;
-import com.huynh.xinh.trader.TraderApplication;
 import com.huynh.xinh.trader.utils.CommonUtils;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 
@@ -27,7 +27,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR2;
+
 public class ItemMarketViewHolder extends BaseViewHolder<ItemMarketViewModel> {
+    private static final int ANIMATION_DURATION = 1000;
+    private static final float MIN_OFF_SET = 8;
+    private static final float ZERO_LINE_WIDTH = 0.5F;
 
     @BindView(R.id.img_market_icon)
     AppCompatImageView icon;
@@ -66,21 +71,32 @@ public class ItemMarketViewHolder extends BaseViewHolder<ItemMarketViewModel> {
     }
 
     private int getIcon(String asset) {
-        Context context = TraderApplication.getInstance();
-        return context.getResources().getIdentifier(asset.toLowerCase(), "drawable", context.getPackageName());
+        return getResources().getIdentifier(asset.toLowerCase(), "drawable", getContext().getPackageName());
     }
 
     private int getColorPercent(BigDecimalWrapper percent) {
-        return percent.gt(BigDecimalWrapper.ZERO) ? Color.parseColor("#00bfbf") : Color.RED;
+        return percent.gt(BigDecimalWrapper.ZERO) ? increaseColor() : decreaseColor();
+    }
+
+    private int increaseColor() {
+        return ResourcesCompat.getColor(getResources(), R.color.all_color_increase, null);
+    }
+
+    private int decreaseColor() {
+        return ResourcesCompat.getColor(getResources(), R.color.all_color_decrease, null);
+    }
+
+    private Resources getResources() {
+        return getContext().getResources();
     }
 
     private void initChart() {
         chart.setDrawGridBackground(false);
-        chart.setMinOffset(8);
+        chart.setMinOffset(MIN_OFF_SET);
         chart.setTouchEnabled(false);
         chart.getDescription().setEnabled(false);
         chart.getLegend().setEnabled(false);
-        chart.animateX(1000);
+        chart.animateX(ANIMATION_DURATION);
 
         chart.setBackgroundColor(Color.WHITE);
 
@@ -93,6 +109,7 @@ public class ItemMarketViewHolder extends BaseViewHolder<ItemMarketViewModel> {
         chart.getAxisLeft().setDrawGridLines(false);
         chart.getAxisLeft().setDrawZeroLine(true);
         chart.getAxisLeft().setZeroLineColor(Color.GRAY);
+        chart.getAxisLeft().setZeroLineWidth(ZERO_LINE_WIDTH);
 
         chart.getAxisRight().setEnabled(false);
     }
@@ -127,7 +144,7 @@ public class ItemMarketViewHolder extends BaseViewHolder<ItemMarketViewModel> {
 
         lineDataSet.enableDashedLine(0, 0, 0);
         lineDataSet.setDrawIcons(false);
-        lineDataSet.setColor(Color.parseColor("#1cffff"));
+        lineDataSet.setColor(increaseColor());
         lineDataSet.setLineWidth(1);
         lineDataSet.setDrawCircles(false);
         lineDataSet.setDrawCircleHole(false);
@@ -135,11 +152,11 @@ public class ItemMarketViewHolder extends BaseViewHolder<ItemMarketViewModel> {
         lineDataSet.setDrawFilled(true);
         lineDataSet.setFillFormatter((dataSet, dataProvider) -> 0);
 
-        if (Utils.getSDKInt() >= 18) {
+        if (Utils.getSDKInt() >= JELLY_BEAN_MR2) {
             Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.item_market_color_chart);
             lineDataSet.setFillDrawable(drawable);
         } else {
-            lineDataSet.setFillColor(Color.parseColor("#1cffff"));
+            lineDataSet.setFillColor(increaseColor());
         }
 
         return lineDataSet;

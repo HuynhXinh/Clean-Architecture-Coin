@@ -2,7 +2,10 @@ package com.huynh.xinh.trader.ui.detail;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.text.Spannable;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +17,10 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.CandleData;
 import com.github.mikephil.charting.data.CandleDataSet;
 import com.github.mikephil.charting.data.CandleEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.huynh.xinh.data.utils.DateTimeStyle;
 import com.huynh.xinh.data.utils.DateTimeUtils;
 import com.huynh.xinh.domain.models.EnumPeriod;
 import com.huynh.xinh.domain.models.Period;
@@ -22,10 +29,13 @@ import com.huynh.xinh.trader.base.ui.BaseFragment;
 import com.huynh.xinh.trader.ui.detail.model.DetailPairFragmentParam;
 import com.huynh.xinh.trader.ui.detail.model.DetailPairViewModel;
 import com.huynh.xinh.trader.ui.detail.model.ItemTabPeriodTimeViewModel;
+import com.huynh.xinh.trader.ui.detail.model.PriceAtPeriodTimeViewModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -38,6 +48,8 @@ import static com.huynh.xinh.trader.Constants.BUNDLE_DETAIL_PAIR_PRESENTER_MODEL
 
 public class DetailPairFragment extends BaseFragment implements DetailPairContract.View {
     private static final int VISIBLE_X_RANGE_MAXIMUM = 50;
+    private static final int ANIMATION_DURATION = 1000;
+    private static final float MIN_OFF_SET = 8;
 
     @BindView(R.id.tv_fragment_detail_pair_title)
     TextView tvTitlePair;
@@ -53,6 +65,10 @@ public class DetailPairFragment extends BaseFragment implements DetailPairContra
     LinearLayout llTabPeriodTime;
     @BindView(R.id.candle_chart_fragment_detail_pair)
     CandleStickChart chart;
+    @BindView(R.id.pb_fragment_detail_pair_loading_chart)
+    View loadingChart;
+    @BindView(R.id.tv_fragment_detail_pair_price_at_period_time)
+    TextView tvPriceAtPeriodTime;
 
     @Inject
     DetailPairContract.Presenter presenter;
@@ -78,6 +94,7 @@ public class DetailPairFragment extends BaseFragment implements DetailPairContra
 
     private void initChart() {
         chart.setBackgroundColor(Color.WHITE);
+        chart.setNoDataText("");
 
         chart.getDescription().setEnabled(false);
         chart.setPinchZoom(false);
@@ -88,6 +105,18 @@ public class DetailPairFragment extends BaseFragment implements DetailPairContra
         chart.getAxisLeft().setEnabled(false);
         chart.getAxisRight().setEnabled(false);
         chart.getLegend().setEnabled(false);
+
+        chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                presenter.showValueSelected((Period) e.getData());
+            }
+
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });
     }
 
     @Override
@@ -109,7 +138,7 @@ public class DetailPairFragment extends BaseFragment implements DetailPairContra
             itemTabPeriod.setOnClickListener(view -> {
                 setSelectedItemTabPeriod(tabName);
                 EnumPeriod enumPeriod = item.getEnumPeriod();
-                presenter.getPeriod(enumPeriod, getPeriodAfter(enumPeriod), item.getValue());
+                presenter.onClickPeriodTime(enumPeriod, getPeriodAfter(enumPeriod), item.getValue());
             });
             llTabPeriodTime.addView(itemTabPeriod);
         }
@@ -209,22 +238,32 @@ public class DetailPairFragment extends BaseFragment implements DetailPairContra
         Spannable spTitle = new Spanner()
                 .append(asset.toUpperCase(), Spans.foreground(Color.BLACK))
                 .append("/")
-                .append(quote.toUpperCase(), Spans.foreground(Color.parseColor("#808080")));
+                .append(quote.toUpperCase(), Spans.foreground(ResourcesCompat.getColor(getResources(), R.color.color_black_50, null)));
         tvTitlePair.setText(spTitle);
     }
 
     @Override
     public void showDetailPair(DetailPairViewModel detailPairViewModel) {
+        boolean isPriceIncrease = detailPairViewModel.isPriceIncrease();
+        tvLastPrice.setCompoundDrawablesWithIntrinsicBounds(isPriceIncrease ? increaseIcon() : decreaseIcon(), null, null, null);
         tvLastPrice.setText(detailPairViewModel.getLastPrice());
         tvChange.setText(detailPairViewModel.getChange());
-        tvChange.setTextColor(detailPairViewModel.getColorChange());
+        tvChange.setTextColor(isPriceIncrease ? increaseColor() : decreaseCode());
         tvPriceHigh.setText(getPriceHigh(detailPairViewModel.getHigh()));
         tvPriceLow.setText(getPriceLow(detailPairViewModel.getLow()));
     }
 
+    private Drawable increaseIcon() {
+        return ContextCompat.getDrawable(getContext(), R.drawable.all_ic_arrow_increase_24dp);
+    }
+
+    private Drawable decreaseIcon() {
+        return ContextCompat.getDrawable(getContext(), R.drawable.all_ic_arrow_decrease_24dp);
+    }
+
     @Override
     public void onFirstSelectedTabPeriod() {
-        // Selected tab 1 Day
+        // Selected tab 1 hour
         llTabPeriodTime.getChildAt(5).performClick();
     }
 
@@ -241,7 +280,7 @@ public class DetailPairFragment extends BaseFragment implements DetailPairContra
             float open = period.getOpenPrice().floatValue();
             float close = period.getClosePrice().floatValue();
 
-            yValue.add(new CandleEntry(x, high, low, open, close));
+            yValue.add(new CandleEntry(x, high, low, open, close, period));
         }
 
         CandleDataSet dataSet = new CandleDataSet(yValue, "");
@@ -251,31 +290,40 @@ public class DetailPairFragment extends BaseFragment implements DetailPairContra
         dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         dataSet.setShadowColor(Color.DKGRAY);
         dataSet.setShadowWidth(0.7f);
-        dataSet.setDecreasingColor(Color.RED);
+        dataSet.setDecreasingColor(decreaseCode());
         dataSet.setDecreasingPaintStyle(Paint.Style.FILL);
-        dataSet.setIncreasingColor(Color.rgb(122, 242, 84));
+        dataSet.setIncreasingColor(increaseColor());
         dataSet.setIncreasingPaintStyle(Paint.Style.STROKE);
         dataSet.setNeutralColor(Color.BLUE);
 
         CandleData data = new CandleData(dataSet);
 
         chart.setData(data);
+        chart.setMinOffset(MIN_OFF_SET);
+        chart.animateX(ANIMATION_DURATION);
         chart.setVisibleXRangeMaximum(VISIBLE_X_RANGE_MAXIMUM);
         chart.moveViewToX(periods.size() - VISIBLE_X_RANGE_MAXIMUM);
-
         chart.invalidate();
+    }
+
+    private int increaseColor() {
+        return ResourcesCompat.getColor(getResources(), R.color.all_color_increase, null);
+    }
+
+    private int decreaseCode() {
+        return ResourcesCompat.getColor(getResources(), R.color.all_color_decrease, null);
     }
 
     public Spannable getPriceHigh(String high) {
         return new Spanner()
-                .append(getString(R.string.detail_pair_fragment_hight))
+                .append(getString(R.string.fragment_detail_pair_hight), Spans.sizeSP(10))
                 .append(" ")
                 .append(high, Spans.foreground(Color.BLACK));
     }
 
     public Spannable getPriceLow(String low) {
         return new Spanner()
-                .append(getString(R.string.detail_pair_fragment_low))
+                .append(getString(R.string.fragment_detail_pair_low), Spans.sizeSP(10))
                 .append(" ")
                 .append(low, Spans.foreground(Color.BLACK));
     }
@@ -299,6 +347,46 @@ public class DetailPairFragment extends BaseFragment implements DetailPairContra
     @Override
     public void showError() {
 
+    }
+
+    @Override
+    public void showLoadChart() {
+        loadingChart.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoadingChart() {
+        loadingChart.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void clearChart() {
+        chart.clear();
+        chart.invalidate();
+    }
+
+    @Override
+    public void showErrorChart() {
+        chart.setContentDescription(getString(R.string.all_smg_opps_some_thing_wrong));
+    }
+
+    @Override
+    public void showPriceAtPeriodTime(PriceAtPeriodTimeViewModel price) {
+        tvPriceAtPeriodTime.setVisibility(View.VISIBLE);
+
+        String formatDate = DateTimeUtils.formatWithStyle(new Date(price.getDate()), DateTimeStyle.MEDIUM_TIME, Locale.getDefault());
+        Spannable sp = new Spanner()
+                .append(formatDate)
+                .append("\n")
+                .append(
+                        getString(R.string.fragment_detail_pair_price_at_period_time,
+                                price.getOpen(),
+                                price.getHeight(),
+                                price.getLow(),
+                                price.getClose(),
+                                price.getPercentChange()));
+
+        tvPriceAtPeriodTime.setText(sp);
     }
 
     @Override

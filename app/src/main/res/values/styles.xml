@@ -34,10 +34,6 @@
         <item name="android:textSize">@dimen/_11ssp</item>
     </style>
 
-    <style name="TextNormal.Blue" parent="TextNormal">
-        <item name="android:textColor">@color/color_blue_4e7bcb</item>
-    </style>
-
     <style name="TextNormal.White" parent="TextNormal">
         <item name="android:textColor">@android:color/white</item>
     </style>

@@ -82,7 +82,9 @@ public class DetailPairPresenter extends BasePresenter<DetailPairContract.View> 
     }
 
     @Override
-    public void getPeriod(EnumPeriod enumPeriod, long periodAfter, long period) {
+    public void onClickPeriodTime(EnumPeriod enumPeriod, long periodAfter, long period) {
+        getView().showLoadChart();
+        getView().clearChart();
         GetPeriodParam param = GetPeriodParam.builder()
                 .periodEnum(enumPeriod)
                 .marketName(detailPairPresenterModel.getMarketSymbol())
@@ -91,6 +93,11 @@ public class DetailPairPresenter extends BasePresenter<DetailPairContract.View> 
                 .periods(String.valueOf(period))
                 .build();
         getPeriod.execute(new GetPeriodResult(), param);
+    }
+
+    @Override
+    public void showValueSelected(Period period) {
+        getView().showPriceAtPeriodTime(DetailPairMapper.INSTANCE.toPriceAtPeriodTimeViewModel(period));
     }
 
     private class DetailPairResult extends OutputObserver<Summary> {
@@ -113,15 +120,15 @@ public class DetailPairPresenter extends BasePresenter<DetailPairContract.View> 
         @Override
         public void onNext(List<Period> periods) {
             super.onNext(periods);
-
+            getView().hideLoadingChart();
             getView().showChartPeriod(periods);
         }
 
         @Override
         public void onError(Throwable exception) {
             super.onError(exception);
-
-            getView().showError();
+            getView().hideLoadingChart();
+            getView().showErrorChart();
         }
     }
 }

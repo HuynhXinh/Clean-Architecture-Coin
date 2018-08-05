@@ -64,7 +64,7 @@
             app:layout_constraintEnd_toStartOf="@id/img_market_favorite"
             app:layout_constraintTop_toTopOf="@id/tv_market_price"
             tools:text="+4.88%"
-            tools:textColor="@color/color_percent_increase" />
+            tools:textColor="@color/all_color_increase" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/img_market_favorite"

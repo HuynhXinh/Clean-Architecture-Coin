@@ -1,7 +1,5 @@
 package com.huynh.xinh.trader.ui.detail.model;
 
-import android.graphics.Color;
-
 import com.huynh.xinh.domain.common.BigDecimalWrapper;
 import com.huynh.xinh.domain.models.Change;
 import com.huynh.xinh.domain.models.Price;
@@ -31,8 +29,8 @@ public class DetailPairViewModel {
                 .toString();
     }
 
-    public int getColorChange() {
-        return price.getChange().getAbsolute().gt(BigDecimalWrapper.ZERO) ? Color.parseColor("#00bfbf") : Color.RED;
+    public boolean isPriceIncrease() {
+        return price.getChange().getAbsolute().gt(BigDecimalWrapper.ZERO);
     }
 
     public String getHigh() {
