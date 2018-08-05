@@ -13,6 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MarketSummary {
     private String pair;
+    private String asset;
+    private String quote;
     private BigDecimalWrapper price;
     private BigDecimalWrapper percent;
     private List<Period> periods;

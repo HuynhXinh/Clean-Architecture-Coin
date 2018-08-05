@@ -1,11 +1,13 @@
 package com.huynh.xinh.data.repositories.coin;
 
+import com.annimon.stream.Stream;
 import com.huynh.xinh.data.repositories.coin.cloud.CoinDto;
 import com.huynh.xinh.data.repositories.coin.cloud.GetCoinApi;
 import com.huynh.xinh.data.repositories.coin.disk.CoinDao;
 import com.huynh.xinh.domain.models.Coin;
 import com.huynh.xinh.domain.repositories.CoinRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,13 +34,17 @@ public class CoinRepositoryImpl implements CoinRepository {
     public Observable<Boolean> syncCoins() {
         return getCoinApi.getListCoin()
                 .map((Function<ListCoinResponse, List<CoinDto>>) response -> {
-                    if (response.getData() != null && !response.getData().isEmpty()) {
-                        return response.getData();
+                    ArrayList<CoinDto> coinDtos = response.getData();
+                    if (coinDtos != null && !coinDtos.isEmpty()) {
+                        return coinDtos;
                     }
                     throw new SyncCoinException();
                 })
                 .doOnNext(coinDtos -> {
                     coinDao.save(CoinMapper.INSTANCE.toCoinEntities(coinDtos));
+
+                    List<Long> ids = Stream.of(coinDtos).map(CoinDto::getId).toList();
+                    coinDao.delete(ids);
                 })
                 .map(coinDtos -> coinDtos != null && !coinDtos.isEmpty());
     }

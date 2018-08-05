@@ -15,12 +15,10 @@ public abstract class BaseFragment extends DaggerFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = getView();
-
         if (view == null) {
             view = inflater.inflate(getContentView(), container, false);
             ButterKnife.bind(this, view);
         }
-        initView(view);
         return view;
     }
 
@@ -30,8 +28,9 @@ public abstract class BaseFragment extends DaggerFragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(view);
         initEvent();
         initData(savedInstanceState);
     }

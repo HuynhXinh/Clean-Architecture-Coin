@@ -227,6 +227,8 @@ public class DateTimeUtils {
             pattern = "MMMM dd, yyyy";
         } else if (style.equals(DateTimeStyle.MEDIUM)) {
             pattern = "MMM dd, yyyy";
+        } else if (style.equals(DateTimeStyle.MEDIUM_TIME)) {
+            pattern = "MMM dd, yyyy, HH:mm";
         } else if (style.equals(DateTimeStyle.SHORT)) {
             pattern = "MM/dd/yy";
         } else {
@@ -580,20 +582,8 @@ public class DateTimeUtils {
         return getTimeAgo(context, date, DateTimeStyle.AGO_FULL_STRING);
     }
 
-    public static long getLocalUnixTimestampOhlcAfter() {
-        return toUnixTimestamp(getTimestampOhlcAfter());
-    }
-
     public static long toUnixTimestamp(long timestamp) {
         return timestamp / 1000;
-    }
-
-    public static long getTimestampOhlcAfter() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) - 1);
-        cal.set(Calendar.HOUR, cal.get(Calendar.HOUR_OF_DAY) - 24);
-
-        return cal.getTimeInMillis();
     }
 
     public static long toLocalTimestamp(long timestampUTC) {

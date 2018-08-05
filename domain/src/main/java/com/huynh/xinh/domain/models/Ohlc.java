@@ -19,7 +19,7 @@ public class Ohlc {
     private List<Period> twoHour;
     private List<Period> fourHour;
     private List<Period> sixHour;
-    private List<Period> twelfth;
+    private List<Period> twelfthHour;
     private List<Period> oneDay;
     private List<Period> threeDay;
     private List<Period> oneWeek;

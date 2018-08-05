@@ -10,4 +10,34 @@ class MainPresenter extends BasePresenter<MainContract.View> implements MainCont
     MainPresenter(MainContract.View mainView) {
         super(mainView);
     }
+
+    @Override
+    public void initFragments() {
+        getView().onInitFragments();
+    }
+
+    @Override
+    public void preSelectTab() {
+        getView().onPreSelectTab();
+    }
+
+    @Override
+    public void clickTabMarket() {
+        getView().onClickTabMarket();
+    }
+
+    @Override
+    public void clickTabFavourite() {
+        getView().onClickTabFavourite();
+    }
+
+    @Override
+    public void clickTabReminded() {
+        getView().onClickTabReminded();
+    }
+
+    @Override
+    public void clickTabSetting() {
+        getView().onClickTabSetting();
+    }
 }

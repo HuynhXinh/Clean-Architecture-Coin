@@ -1,31 +1,29 @@
 package com.huynh.xinh.data.repositories.market.cloud;
 
-import com.huynh.xinh.data.repositories.market.responses.DetailExchangeResponse;
 import com.huynh.xinh.data.repositories.market.responses.ListMarketResponse;
-import com.huynh.xinh.data.repositories.market.responses.MarketDetailResponse;
 import com.huynh.xinh.data.repositories.market.responses.OhlcResponse;
+import com.huynh.xinh.data.repositories.market.responses.PairResponse;
 import com.huynh.xinh.data.repositories.market.responses.SummaryResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.Url;
 
 public interface GetMarketApi {
-    @GET
-    Observable<DetailExchangeResponse> getDetailExchange(@Url String routeExchange);
 
-    @GET
-    Observable<ListMarketResponse> getListMarket(@Url String routeMarket);
+    @GET("markets/{market-name}")
+    Observable<ListMarketResponse> getListMarket(@Path("market-name") String marketName);
 
-    @GET
-    Observable<MarketDetailResponse> getMarketDetail(@Url String marketRoute);
+    @GET("pairs/{pair}")
+    Observable<PairResponse> getPairs(@Path("pair") String pair);
 
-    @GET
-    Observable<SummaryResponse> getSummary(@Url String summaryUrl);
+    @GET("markets/{market-name}/{pair}/summary")
+    Observable<SummaryResponse> getSummary(@Path("market-name") String marketName, @Path("pair") String pair);
 
-    @GET
-    Observable<OhlcResponse> getOhlc(@Url String ohlcUrl,
+    @GET("markets/{market-name}/{pair}/ohlc")
+    Observable<OhlcResponse> getOhlc(@Path("market-name") String marketName,
+                                     @Path("pair") String pair,
                                      @Query("after") long after,
                                      @Query("periods") String periods);
 }

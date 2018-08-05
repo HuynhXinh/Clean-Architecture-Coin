@@ -8,17 +8,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class BasePresenter<T extends Contract.IView> implements Contract.IPresenter<T> {
+public abstract class BasePresenter<V extends Contract.IView> implements Contract.IPresenter<V> {
 
     private final List<UseCase> useCases;
 
-    private WeakReference<T> view;
+    private WeakReference<V> view;
 
     public BasePresenter() {
         this.useCases = Collections.emptyList();
     }
 
-    public BasePresenter(T view, UseCase... useCases) {
+    public BasePresenter(V view, UseCase... useCases) {
         setView(view);
         this.useCases = Arrays.asList(useCases);
     }
@@ -49,12 +49,12 @@ public abstract class BasePresenter<T extends Contract.IView> implements Contrac
         view = null;
     }
 
-    protected T getView() {
+    protected V getView() {
         return view.get();
     }
 
     @Override
-    public void setView(T view) {
+    public void setView(V view) {
         this.view = new WeakReference<>(view);
     }
 

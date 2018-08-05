@@ -16,4 +16,7 @@ public interface ExchangeDao {
 
     @Query("SELECT * FROM EXCHANGE WHERE active = 1 ORDER BY name ASC")
     Maybe<List<ExchangeEntity>> getAllExchanges();
+
+    @Query("DELETE FROM EXCHANGE WHERE id NOT IN (:exchangeSupportIds) ")
+    void delete(List<Long> exchangeSupportIds);
 }

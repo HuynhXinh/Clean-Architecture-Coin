@@ -12,13 +12,9 @@ import io.reactivex.Observable;
 public interface MarketRepository {
     Observable<Boolean> syncMarkets(String routeExchange);
 
-    Observable<List<Market>> getMarkets(String exchangeName);
-
     Observable<List<Market>> getMarkets(String exchangeName, int page, int maxResult);
 
-    Observable<MarketDetail> getMarketDetail(String marketRoute);
+    Observable<Summary> getSummary(String marketName, String pair);
 
-    Observable<Summary> getSummary(String summaryUrl);
-
-    Observable<Ohlc> getOhlc(String ohlcUrl, long after, String periods);
+    Observable<Ohlc> getOhlc(String marketName, String pair, long after, String periods);
 }

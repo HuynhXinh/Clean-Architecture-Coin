@@ -1,14 +1,12 @@
 package com.huynh.xinh.data.repositories.market;
 
 import com.annimon.stream.Stream;
-import com.huynh.xinh.data.repositories.market.cloud.DetailExchangeDto;
 import com.huynh.xinh.data.repositories.market.cloud.GetMarketApi;
 import com.huynh.xinh.data.repositories.market.cloud.MarketDto;
-import com.huynh.xinh.data.repositories.market.cloud.RouteDto;
+import com.huynh.xinh.data.repositories.market.cloud.PairDto;
 import com.huynh.xinh.data.repositories.market.disk.MarketDao;
 import com.huynh.xinh.data.repositories.market.responses.ListMarketResponse;
 import com.huynh.xinh.domain.models.Market;
-import com.huynh.xinh.domain.models.MarketDetail;
 import com.huynh.xinh.domain.models.Ohlc;
 import com.huynh.xinh.domain.models.Summary;
 import com.huynh.xinh.domain.repositories.MarketRepository;
@@ -32,54 +30,45 @@ public class MarketRepositoryImpl implements MarketRepository {
     }
 
     @Override
-    public Observable<Boolean> syncMarkets(String routeExchange) {
-        return marketApi.getDetailExchange(routeExchange)
-                .map(response -> {
-                    if (response.getData() != null) {
-                        return response.getData();
-                    }
-                    return new DetailExchangeDto();
-                })
-                .flatMap((Function<DetailExchangeDto, Observable<ListMarketResponse>>) detailExchangeDto -> {
-                    RouteDto routeDto = detailExchangeDto.getRoutes();
-                    if (routeDto != null) {
-                        String routMarket = detailExchangeDto.getRoutes().getMarkets();
-                        return marketApi.getListMarket(routMarket);
-                    }
-                    return Observable.empty();
-                })
+    public Observable<Boolean> syncMarkets(String marketName) {
+        return marketApi.getListMarket(marketName)
                 .map((Function<ListMarketResponse, List<MarketDto>>) response -> {
-                    if (response.getData() != null && !response.getData().isEmpty()) {
-                        return Stream.of(response.getData()).filter(MarketDto::isActive).toList();
+                    List<MarketDto> marketDtos = response.getData();
+                    if (marketDtos != null && !marketDtos.isEmpty()) {
+                        return Stream.of(marketDtos).filter(MarketDto::isActive).toList();
                     }
                     return Collections.emptyList();
                 })
+                .flatMap(Observable::fromIterable)
+                .flatMap(marketDto -> marketApi.getPairs(marketDto.getPair()).map(response -> {
+                    PairDto pairDto = response.getData();
+                    if (pairDto != null) {
+                        marketDto.setAsset(pairDto.getBase().getSymbol());
+                        marketDto.setQuote(pairDto.getQuote().getSymbol());
+                    }
+                    return marketDto;
+                }))
+                .toList()
+                .toObservable()
                 .doOnNext(marketDtos -> marketDao.save(MarketMapper.INSTANCE.toMarketEntities(marketDtos)))
                 .map(marketDtos -> marketDtos != null && !marketDtos.isEmpty());
     }
 
     @Override
-    public Observable<List<Market>> getMarkets(String exchangeName) {
-        return marketDao.getAllMarketByExchangeName(exchangeName).toObservable().map(MarketMapper.INSTANCE::toMarkets);
-    }
-
-    @Override
     public Observable<List<Market>> getMarkets(String exchangeName, int page, int maxResult) {
-        return marketDao.getMarkets(exchangeName, page, maxResult).toObservable().map(MarketMapper.INSTANCE::toMarkets);
+        int offset = page * maxResult;
+        return marketDao.getMarkets(exchangeName, offset, maxResult).toObservable().map(MarketMapper.INSTANCE::toMarkets);
     }
 
     @Override
-    public Observable<MarketDetail> getMarketDetail(String marketRoute) {
-        return marketApi.getMarketDetail(marketRoute).map(response -> MarketMapper.INSTANCE.toMarketDetail(response.getData()));
+    public Observable<Summary> getSummary(String marketName, String pair) {
+        return marketApi.getSummary(marketName, pair)
+                .map(response -> MarketMapper.INSTANCE.toSummary(response.getData()));
     }
 
     @Override
-    public Observable<Summary> getSummary(String summaryUrl) {
-        return marketApi.getSummary(summaryUrl).map(response -> MarketMapper.INSTANCE.toSummary(response.getData()));
-    }
-
-    @Override
-    public Observable<Ohlc> getOhlc(String ohlcUrl, long after, String periods) {
-        return marketApi.getOhlc(ohlcUrl, after, periods).map(response -> MarketMapper.INSTANCE.toOhlc(response.getData()));
+    public Observable<Ohlc> getOhlc(String marketName, String pair, long after, String periods) {
+        return marketApi.getOhlc(marketName, pair, after, periods)
+                .map(response -> MarketMapper.INSTANCE.toOhlc(response.getData()));
     }
 }

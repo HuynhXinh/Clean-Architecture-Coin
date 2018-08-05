@@ -4,7 +4,6 @@ import com.huynh.xinh.domain.common.BigDecimalWrapper;
 import com.huynh.xinh.domain.models.Coin;
 import com.huynh.xinh.domain.models.MarketSummary;
 import com.huynh.xinh.trader.ui.CoinManager;
-import com.huynh.xinh.trader.utils.AssetAndQuoteUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,11 +35,11 @@ public class MarketViewModelMapperTest {
 
     private List<Coin> mockCoins() {
         return Arrays.asList(
-            mockCoin(1, "btc", "Bitcoin", false),
-            mockCoin(1, "usd", "USD", true),
-            mockCoin(1, "usdt", "Tether", false),
-            mockCoin(1, "btcd", "BitcoinDark", false),
-            mockCoin(1, "eth", "Ethereum", false)
+                mockCoin(1, "btc", "Bitcoin", false),
+                mockCoin(1, "usd", "USD", true),
+                mockCoin(1, "usdt", "Tether", false),
+                mockCoin(1, "btcd", "BitcoinDark", false),
+                mockCoin(1, "eth", "Ethereum", false)
         );
     }
 
@@ -52,7 +51,7 @@ public class MarketViewModelMapperTest {
     public void toMarketViewModel() {
         MarketSummary marketSummary = mockMarketSummary();
 
-        MarketViewModel marketViewModel = MarketViewModelMapper.INSTANCE.toMarketViewModel(marketSummary);
+        ItemMarketViewModel marketViewModel = MarketViewModelMapper.INSTANCE.toMarketViewModel(marketSummary);
 
         assertEquals("btcusdt", marketViewModel.getPair());
         assertEquals("btc", marketViewModel.getAsset());

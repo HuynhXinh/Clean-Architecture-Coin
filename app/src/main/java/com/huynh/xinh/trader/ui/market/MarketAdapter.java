@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
-public class MarketAdapter extends RecyclerArrayAdapter<MarketViewModel> {
-    public MarketAdapter(Context context) {
+public class MarketAdapter extends RecyclerArrayAdapter<ItemMarketViewModel> {
+    MarketAdapter(Context context) {
         super(context);
     }
 

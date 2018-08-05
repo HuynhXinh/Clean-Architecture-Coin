@@ -32,7 +32,7 @@ public class SyncMarket extends UseCase<Boolean, Void> {
     public Observable<Boolean> buildUseCaseObservable(Void aVoid) {
         return exchangeRepository.getExchanges()
                 .flatMapIterable(exchanges -> exchanges)
-                .flatMap(exchange -> marketRepository.syncMarkets(exchange.getRoute()))
+                .flatMap(exchange -> marketRepository.syncMarkets(exchange.getSymbol()))
                 .map(syncMarketSuccess -> syncMarketSuccess);
     }
 }

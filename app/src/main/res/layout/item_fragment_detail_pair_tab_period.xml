@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:minWidth="@dimen/_35sdp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_item_tab_period_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/item_detail_pair_tab_period_selector"
+        android:textSize="@dimen/_10sdp"
+        tools:text="1M" />
+
+    <ImageView
+        android:id="@+id/img_item_tab_period_indicator"
+        android:layout_width="@dimen/_3sdp"
+        android:layout_height="@dimen/_3sdp"
+        android:layout_gravity="center"
+        android:src="@drawable/item_detail_pair_tab_period_indicator_selector" />
+
+</LinearLayout>
