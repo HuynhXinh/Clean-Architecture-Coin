@@ -2,8 +2,8 @@ package com.huynh.xinh.trader.base.listeners;
 
 @FunctionalInterface
 public interface OnItemClickListener<D> {
-    OnItemClickListener DEFAULT = (object, position) -> {
+    OnItemClickListener DEFAULT = (itemViewModel, position) -> {
     };
 
-    void onItemClick(D object, int position);
+    void onItemClick(D itemViewModel, int position);
 }

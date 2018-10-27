@@ -18,5 +18,5 @@ public interface ExchangeDao {
     Maybe<List<ExchangeEntity>> getAllExchanges();
 
     @Query("DELETE FROM EXCHANGE WHERE id NOT IN (:exchangeSupportIds) ")
-    void delete(List<Long> exchangeSupportIds);
+    void deleteAllExchangeNotSupport(List<Long> exchangeSupportIds);
 }
