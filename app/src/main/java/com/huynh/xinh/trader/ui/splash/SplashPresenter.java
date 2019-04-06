@@ -32,7 +32,7 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
                     GetCoin getCoin,
                     SplashPreference splashPreference) {
 
-        super(view, syncListExchangeAndCoin, syncMarket);
+        super(view, syncListExchangeAndCoin, syncMarket, getExchange, getCoin);
         this.syncListExchangeAndCoin = syncListExchangeAndCoin;
         this.syncMarket = syncMarket;
         this.getExchange = getExchange;
@@ -139,7 +139,7 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
             super.onNext(coins);
             if (!CommonUtils.isListEmpty(coins)) {
                 CoinManager.getInstance().set(coins);
-                navigateToMain();
+                getView().gotoMainActivity();
             } else {
                 getView().hideLoading();
                 getView().showError();
@@ -151,13 +151,6 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
             super.onError(exception);
             getView().hideLoading();
             getView().showError();
-        }
-    }
-
-    synchronized private void navigateToMain() {
-        if (!CommonUtils.isListEmpty(ExchangeManager.getInstance().getExchanges()) &&
-                !CommonUtils.isListEmpty(CoinManager.getInstance().getCoins())) {
-            getView().gotoMainActivity();
         }
     }
 }

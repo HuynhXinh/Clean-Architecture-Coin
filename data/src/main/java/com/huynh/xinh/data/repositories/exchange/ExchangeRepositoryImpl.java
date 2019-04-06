@@ -32,7 +32,7 @@ public class ExchangeRepositoryImpl implements ExchangeRepository {
                     if (exchangeDtos != null && !exchangeDtos.isEmpty()) {
                         return exchangeDtos;
                     }
-                    throw new SyncExChangeException();
+                    throw new SyncExchangeEmptyException();
                 })
                 .doOnNext(exchangeDtos -> {
                     List<ExchangeDto> exchangeSupports = Stream.of(exchangeDtos)
@@ -41,7 +41,7 @@ public class ExchangeRepositoryImpl implements ExchangeRepository {
 
                     exchangeDao.save(ExchangeMapper.INSTANCE.toExchangeEntities(exchangeSupports));
                     List<Long> exchangeSupportIds = Stream.of(exchangeSupports).map(ExchangeDto::getId).toList();
-                    exchangeDao.delete(exchangeSupportIds);
+                    exchangeDao.deleteAllExchangeNotSupport(exchangeSupportIds);
                 })
                 .map(exchangeDtos -> exchangeDtos != null && !exchangeDtos.isEmpty());
     }
