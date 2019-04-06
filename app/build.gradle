@@ -24,13 +24,13 @@ android {
 
     signingConfigs {
         debug {
-//            storeFile file(keyStoreProperties["storeFileDebug"])
+            storeFile file(keyStoreProperties["storeFileDebug"])
         }
         release {
-//            keyAlias keyStoreProperties["keyAlias"]
-//            keyPassword keyStoreProperties["keyPassword"]
-//            storeFile file(keyStoreProperties["storeFile"])
-//            storePassword keyStoreProperties["storePassword"]
+            keyAlias keyStoreProperties["keyAlias"]
+            keyPassword keyStoreProperties["keyPassword"]
+            storeFile file(keyStoreProperties["storeFile"])
+            storePassword keyStoreProperties["storePassword"]
         }
     }
 
